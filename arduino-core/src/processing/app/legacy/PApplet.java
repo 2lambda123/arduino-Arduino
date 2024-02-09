@@ -1,5 +1,6 @@
 package processing.app.legacy;
 
+import io.github.pixee.security.SystemCommand;
 import org.apache.commons.compress.utils.IOUtils;
 
 import java.io.*;
@@ -383,7 +384,7 @@ public class PApplet {
       if (openLauncher == null) {
         // Attempt to use gnome-open
         try {
-          Process p = Runtime.getRuntime().exec(new String[] { "gnome-open" });
+          Process p = SystemCommand.runCommand(Runtime.getRuntime(), new String[] { "gnome-open" });
           /*int result =*/ p.waitFor();
           // Not installed will throw an IOException (JDK 1.4.2, Ubuntu 7.04)
           openLauncher = "gnome-open";
@@ -392,7 +393,7 @@ public class PApplet {
       if (openLauncher == null) {
         // Attempt with kde-open
         try {
-          Process p = Runtime.getRuntime().exec(new String[] { "kde-open" });
+          Process p = SystemCommand.runCommand(Runtime.getRuntime(), new String[] { "kde-open" });
           /*int result =*/ p.waitFor();
           openLauncher = "kde-open";
         } catch (Exception e) { }
@@ -424,7 +425,7 @@ public class PApplet {
 
   static public Process exec(String[] argv) {
     try {
-      return Runtime.getRuntime().exec(argv);
+      return SystemCommand.runCommand(Runtime.getRuntime(), argv);
     } catch (Exception e) {
       e.printStackTrace();
       throw new RuntimeException("Could not open " + join(argv, ' '));

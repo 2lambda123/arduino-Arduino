@@ -1,5 +1,6 @@
 package processing.app.helpers;
 
+import io.github.pixee.security.SystemCommand;
 import java.io.IOException;
 import java.util.Map;
 
@@ -8,7 +9,7 @@ public class ProcessUtils {
   public static Process exec(String[] command) throws IOException {
     // No problems on linux and mac
     if (!OSUtils.isWindows()) {
-      return Runtime.getRuntime().exec(command);
+      return SystemCommand.runCommand(Runtime.getRuntime(), command);
     }
 
     // Brutal hack to workaround windows command line parsing.
