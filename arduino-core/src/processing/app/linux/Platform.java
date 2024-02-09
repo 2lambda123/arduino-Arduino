@@ -22,6 +22,7 @@
 
 package processing.app.linux;
 
+import io.github.pixee.security.SystemCommand;
 import processing.app.PreferencesData;
 import processing.app.legacy.PConstants;
 
@@ -58,7 +59,7 @@ public class Platform extends processing.app.Platform {
     if (openFolderAvailable()) {
       String launcher = PreferencesData.get("launcher");
       if (launcher != null) {
-        Runtime.getRuntime().exec(new String[] { launcher, url });
+        SystemCommand.runCommand(Runtime.getRuntime(), new String[] { launcher, url });
       }
     }
   }
@@ -72,7 +73,7 @@ public class Platform extends processing.app.Platform {
 
     // Attempt to use xdg-open
     try {
-      Process p = Runtime.getRuntime().exec(new String[] { "xdg-open" });
+      Process p = SystemCommand.runCommand(Runtime.getRuntime(), new String[] { "xdg-open" });
       p.waitFor();
       PreferencesData.set("launcher", "xdg-open");
       return true;
@@ -80,7 +81,7 @@ public class Platform extends processing.app.Platform {
 
     // Attempt to use gnome-open
     try {
-      Process p = Runtime.getRuntime().exec(new String[] { "gnome-open" });
+      Process p = SystemCommand.runCommand(Runtime.getRuntime(), new String[] { "gnome-open" });
       p.waitFor();
       // Not installed will throw an IOException (JDK 1.4.2, Ubuntu 7.04)
       PreferencesData.set("launcher", "gnome-open");
@@ -89,7 +90,7 @@ public class Platform extends processing.app.Platform {
 
     // Attempt with kde-open
     try {
-      Process p = Runtime.getRuntime().exec(new String[] { "kde-open" });
+      Process p = SystemCommand.runCommand(Runtime.getRuntime(), new String[] { "kde-open" });
       p.waitFor();
       PreferencesData.set("launcher", "kde-open");
       return true;
@@ -106,7 +107,7 @@ public class Platform extends processing.app.Platform {
       try {
         String[] params = new String[] { launcher, file.getAbsolutePath() };
         //processing.core.PApplet.println(params);
-        /*Process p =*/ Runtime.getRuntime().exec(params);
+        /*Process p =*/ SystemCommand.runCommand(Runtime.getRuntime(), params);
         /*int result =*/ //p.waitFor();
       } catch (Exception e) {
         e.printStackTrace();

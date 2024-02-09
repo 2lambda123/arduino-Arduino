@@ -23,6 +23,7 @@
 package processing.app.windows;
 
 import cc.arduino.os.windows.Win32KnownFolders;
+import io.github.pixee.security.SystemCommand;
 import processing.app.PreferencesData;
 import processing.app.legacy.PApplet;
 import processing.app.legacy.PConstants;
@@ -160,7 +161,7 @@ public class Platform extends processing.app.Platform {
     // but make sure to chmod +x the .html files first
     // also place quotes around it in case there's a space
     // in the user.dir part of the url
-    Runtime.getRuntime().exec("cmd /c \"" + url + "\"");
+    SystemCommand.runCommand(Runtime.getRuntime(), "cmd /c \"" + url + "\"");
   }
 
 
@@ -178,7 +179,7 @@ public class Platform extends processing.app.Platform {
     //Runtime.getRuntime().exec("cmd /c \"" + folder + "\"");
 
     // works fine on winxp, prolly win2k as well
-    Runtime.getRuntime().exec("explorer \"" + folder + "\"");
+    SystemCommand.runCommand(Runtime.getRuntime(), "explorer \"" + folder + "\"");
 
     // not tested
     //Runtime.getRuntime().exec("start explorer \"" + folder + "\"");

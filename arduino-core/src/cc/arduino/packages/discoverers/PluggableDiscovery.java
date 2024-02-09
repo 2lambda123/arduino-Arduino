@@ -29,6 +29,7 @@
 
 package cc.arduino.packages.discoverers;
 
+import io.github.pixee.security.SystemCommand;
 import static processing.app.I18n.format;
 
 import java.io.InputStream;
@@ -193,7 +194,7 @@ public class PluggableDiscovery implements Discovery {
   public void start() throws Exception {
     try {
       debug("Starting: " + StringUtils.join(cmd, " "));
-      program = Runtime.getRuntime().exec(cmd);
+      program = SystemCommand.runCommand(Runtime.getRuntime(), cmd);
     } catch (Exception e) {
       program = null;
       return;

@@ -23,6 +23,7 @@
 package processing.app;
 
 import cc.arduino.packages.BoardPort;
+import io.github.pixee.security.SystemCommand;
 import processing.app.debug.TargetBoard;
 import processing.app.debug.TargetPackage;
 import processing.app.debug.TargetPlatform;
@@ -117,7 +118,7 @@ public class Platform {
   public void openURL(String url) throws Exception {
     String launcher = PreferencesData.get("launcher");
     if (launcher != null) {
-      Runtime.getRuntime().exec(new String[]{launcher, url});
+      SystemCommand.runCommand(Runtime.getRuntime(), new String[]{launcher, url});
     } else {
       showLauncherWarning();
     }
@@ -133,7 +134,7 @@ public class Platform {
     String launcher = PreferencesData.get("launcher");
     if (launcher != null) {
       String folder = file.getAbsolutePath();
-      Runtime.getRuntime().exec(new String[]{launcher, folder});
+      SystemCommand.runCommand(Runtime.getRuntime(), new String[]{launcher, folder});
     } else {
       showLauncherWarning();
     }
@@ -253,7 +254,7 @@ public class Platform {
   }
 
   public void fixPrefsFilePermissions(File prefsFile) throws IOException, InterruptedException {
-    Process process = Runtime.getRuntime().exec(new String[]{"chmod", "600", prefsFile.getAbsolutePath()}, null, null);
+    Process process = SystemCommand.runCommand(Runtime.getRuntime(), new String[]{"chmod", "600", prefsFile.getAbsolutePath()}, null, null);
     process.waitFor();
   }
 
@@ -279,17 +280,17 @@ public class Platform {
   }
 
   public void symlink(String something, File somewhere) throws IOException, InterruptedException {
-    Process process = Runtime.getRuntime().exec(new String[]{"ln", "-s", something, somewhere.getAbsolutePath()}, null, somewhere.getParentFile());
+    Process process = SystemCommand.runCommand(Runtime.getRuntime(), new String[]{"ln", "-s", something, somewhere.getAbsolutePath()}, null, somewhere.getParentFile());
     process.waitFor();
   }
 
   public void link(File something, File somewhere) throws IOException, InterruptedException {
-    Process process = Runtime.getRuntime().exec(new String[]{"ln", something.getAbsolutePath(), somewhere.getAbsolutePath()}, null, null);
+    Process process = SystemCommand.runCommand(Runtime.getRuntime(), new String[]{"ln", something.getAbsolutePath(), somewhere.getAbsolutePath()}, null, null);
     process.waitFor();
   }
 
   public void chmod(File file, int mode) throws IOException, InterruptedException {
-    Process process = Runtime.getRuntime().exec(new String[]{"chmod", Integer.toOctalString(mode), file.getAbsolutePath()}, null, null);
+    Process process = SystemCommand.runCommand(Runtime.getRuntime(), new String[]{"chmod", Integer.toOctalString(mode), file.getAbsolutePath()}, null, null);
     process.waitFor();
   }
 
